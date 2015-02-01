@@ -9,4 +9,6 @@ app.get('/', function(request, response) {
 
 });
 
-app.listen(app.get('port'));
+app.listen(app.get('port'), function(){
+    console.log("running on " + app.get('port'));
+});
