@@ -1,13 +1,22 @@
-var express = require('express');
-var app = express();
+var connect = require('connect'),
+	http = require('http');
 
-app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'));
+var config = require('./config')();
 
-app.get('/', function (request, response) {
-	response.send("bb");
-});
+var app = connect()
+	.use(function (req, res, next) {
+		console.log("That's my first middleware");
+		next();
+	})
+	.use(function (req, res, next) {
+		console.log("That's my second middleware");
+		next();
+	})
+	.use(function (req, res, next) {
+		console.log("end");
+		res.end("hello world");
+	});
 
-app.listen(app.get('port'), function () {
-	console.log("running on " + app.get('port'));
+http.createServer(app).listen(config.port, function () {
+	console.log('Express server listening on port ' + config.port);
 });
